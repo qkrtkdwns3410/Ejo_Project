@@ -4,17 +4,34 @@ import java.util.Map;
 
  */
 public class Admin extends Funtions {
-    private int num = 1000;
+    private String adminPWD;
+    private int num;
 
-    public void adminCheck() {   //비밀번호 1개 설정 후, 이용
+    public Admin() {
+        this.num = 1000;
+        this.adminPWD = "Ejo";
+    }
 
+    public Boolean adminCheck() {   //비밀번호 1개 설정 후, 이용
+        while (true) {
+            System.out.println("관리자 비밀번호를 입력해주세요 .");
+            String str = getStrInput("        PassWord : "); //관리자 번호를 입력후 return ..
+            if (!str.equals(adminPWD)) {
+                System.out.println("비밀번호가 틀립니다.");
+                System.out.println("초기화면으로 돌아가시겠습니까?");
+                int sw2 = sc.nextInt();
+                if (sw2 == 0) {selectType();}
+            } else {
+                return true;
+            }
+        }
     }
 
     private void jobOpening() {
         Job job = new Job();
 
         job.setJobCode("EZ_" + (num++)); //jobCode는 자동설정(1000~9999)
-        if(num > 9999){
+        if (num > 9999) {
             System.out.println("더 이상의 공고를 게시할 수 없습니다. 시스템 관리자에게 문의 하세요.");
             selectMenu_A();
         }   //9999 초과하는 공고 게시 불가 -> 메뉴화면으로 돌아감
@@ -28,17 +45,63 @@ public class Admin extends Funtions {
 
         Boolean check = confirmMessage("공고 업로드");
 
-        if(check.equals(true)){
+        if (check.equals(true)) {
             jobList.add(job);
             System.out.printf("[%s]    채용부서 : %s.    %s.    [%s]\n",
                     job.getJobCode(), job.getDepartment(), job.getJobName(), job.getPostingDate());
-        }else {
+        } else {
             selectMenu_A();
         }
     }
 
-    private void jobChange() {    //jobCode, postingDate는 고정
+    private void jobChange() {
 
+        try {
+            System.out.println("수정할 글 번호를 입력해주세요.");
+            int num = Integer.parseInt(sc.nextLine());
+            System.out.println("======수정할 글=======");
+            System.out.println(jobList.get(num + 1));
+            System.out.println("====================");
+
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("에러메시지 : " + e.getMessage());
+        }
+
+        while (true) {
+            switch (selectJobList()) {
+                case 1:
+                    System.out.println("department를 수정합니다.");
+                    System.out.printf("현재 department는 %s입니다.", jobList.get(num + 1).getDepartment());
+
+                    String strDepartment = getStrInput("수정할 department를 입력해주세요.");
+                    jobList.get(num + 1).setDepartment(strDepartment);
+                case 2:
+                    System.out.println("jobName을 수정합니다.");
+                    System.out.printf("현재 jobName은 %s입니다.", jobList.get(num + 1).getJobName());
+
+                    String strName = getStrInput("수정할 jobName을 입력해주세요.");
+                    jobList.get(num + 1).setJobName(strName);
+                case 3:
+                    System.out.println("관리자 메뉴로 돌아갑니다.");
+                    selectMenu_A();
+                default:
+                    System.out.println("잘못된 번호를 입력하셨습니다.");
+
+            }
+        }
+    }
+
+    private int selectJobList() {
+
+        System.out.println("수정할 목록을 입력해주세요.");
+        System.out.println("======================");
+        System.out.println("1. 채용 부서");
+        System.out.println("2. 공고 이름");
+        System.out.println("3. 관리자 메뉴로 돌아가기");
+        System.out.println("======================");
+        int num = Integer.parseInt(sc.nextLine());
+
+        return num;
     }
 
     private void jobDelete() {
@@ -51,9 +114,9 @@ public class Admin extends Funtions {
         System.out.println("출력할 지원자리스트의 공고 코드를 입력하세요");
         String findCode = sc.nextLine();
 
-        for(int i = 0; i < candiMap.size(); i++){
-            for(Map.Entry<String, Member> entry : candiMap.entrySet()){
-                if(entry.getKey().equals(findCode)){
+        for (int i = 0; i < candiMap.size(); i++) {
+            for (Map.Entry<String, Member> entry : candiMap.entrySet()) {
+                if (entry.getKey().equals(findCode)) {
                     System.out.println(count + ". [" + entry.getKey() + "]    " + entry.getValue());
                     count++;
                 }
