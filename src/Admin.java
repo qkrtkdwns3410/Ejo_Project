@@ -3,7 +3,7 @@ import java.util.Map;
 /*
 
  */
-public class Admin extends Funtions {
+public class Admin extends Fucntions {
     private String adminPWD;
     private int num;
 
@@ -18,11 +18,13 @@ public class Admin extends Funtions {
             String str = getStrInput("        PassWord : "); //관리자 번호를 입력후 return ..
             if (!str.equals(adminPWD)) {
                 System.out.println("비밀번호가 틀립니다.");
-                System.out.println("초기화면으로 돌아가시겠습니까?");
+                System.out.println("초기화면으로 돌아가시겠습니까?");    //**초기 선택지로 돌아가는 추가함수필요
                 int sw2 = sc.nextInt();
                 if (sw2 == 0) {selectType();}
             } else {
-                return true;
+                System.out.println("======관리자 모드======");
+                selectMenu_A();
+                return false;
             }
         }
     }
@@ -49,6 +51,7 @@ public class Admin extends Funtions {
             jobList.add(job);
             System.out.printf("[%s]    채용부서 : %s.    %s.    [%s]\n",
                     job.getJobCode(), job.getDepartment(), job.getJobName(), job.getPostingDate());
+            selectMenu_A();
         } else {
             selectMenu_A();
         }
@@ -63,7 +66,7 @@ public class Admin extends Funtions {
             System.out.println(jobList.get(num + 1));
             System.out.println("====================");
 
-        } catch (IndexOutOfBoundsException e) {
+        } catch (Exception e) {
             System.out.println("에러메시지 : " + e.getMessage());
         }
 
@@ -137,29 +140,32 @@ public class Admin extends Funtions {
     }
 
     public void selectMenu_A() {
+        showMenu_A();
         int choice = Integer.parseInt(sc.nextLine());
 
-        switch (choice) {
-            case 1:
-                jobOpening();
-                break;
-            case 2:
-                jobChange();
-                break;
-            case 3:
-                showJobList();
-                break;
-            case 4:
-                jobDelete();
-                break;
-            case 5:
-                candiList();
-                break;
-            case 6:
-                exit();
-            default:
-                System.out.println("잘못 입력 하셨습니다.");
-                selectMenu_A();
+        while (true) {
+            switch (choice) {
+                case 1:
+                    jobOpening();
+                    break;
+                case 2:
+                    jobChange();
+                    break;
+                case 3:
+                    showJobList();
+                    break;
+                case 4:
+                    jobDelete();
+                    break;
+                case 5:
+                    candiList();
+                    break;
+                case 6:
+                    exit();
+                default:
+                    System.out.println("잘못 입력 하셨습니다.");
+                    selectMenu_A();
+            }
         }
     }
 

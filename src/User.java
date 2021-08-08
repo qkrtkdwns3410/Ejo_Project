@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 /*
 
  */
-public class User extends Funtions {
+public class User extends Fucntions {
     ArrayList<Member> members;
 //    ArrayList<jobApplyPaper> jobApplyPapers;
 
@@ -275,15 +275,26 @@ public class User extends Funtions {
 
         int choice = Integer.parseInt(sc.nextLine());
 
-        switch (choice){
-            case 1 : showJobList(); break;
-            case 2: jobApply(); break;
-            case 3 : applyCheck(); break;
-            case 4 : applyCancel(); break;
-            case 5: exit();
-            default:
-                System.out.println("잘못 입력 하셨습니다.");
-                selectMenu_U();
+        while (true) {
+            switch (choice) {
+                case 1:
+                    showJobList();
+                    break;
+                case 2:
+                    jobApply();
+                    break;
+                case 3:
+                    applyCheck();
+                    break;
+                case 4:
+                    applyCancel();
+                    break;
+                case 5:
+                    exit();
+                default:
+                    System.out.println("잘못 입력 하셨습니다.");
+                    selectMenu_U();
+            }
         }
     }
 }
