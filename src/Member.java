@@ -79,7 +79,8 @@ class Member {
         if (this.name.equals(data) || this.emailAddress.equals(data) || this.phoneNumber.equals(data)
                 || this.birthDate.equals(data) || this.passWord.equals(data)) {
             check = true;
-        }return check;
+        }
+        return check;
     }
 
     @Override

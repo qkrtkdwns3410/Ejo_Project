@@ -42,6 +42,6 @@ public class Job {
 
     @Override
     public String toString() {
-        return "[" + jobCode + "]    채용부서 : " + department + ".    '" + jobName + "[" + postingDate + "]";
+        return "[" + jobCode + "]    채용부서 : " + department + "    공고명 : " + jobName + "    게시일자 : " + postingDate;
     }
 }

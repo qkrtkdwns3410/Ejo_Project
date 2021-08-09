@@ -1,24 +1,19 @@
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Scanner;
 
 /*
 
  */
-public class Fucntions {
+public class Support {
     Scanner sc = new Scanner(System.in);
-    HashMap<String, Member> candiMap = new HashMap<String, Member>();
-    ArrayList<Job> jobList = new ArrayList<Job>();
-
-//    User user = new User();
-//    Admin admin = new Admin();
-//    Job job = new Job();
+    static HashMap<String, Member> candiMap = new HashMap<String, Member>();
+    static ArrayList<Job> jobList = new ArrayList<Job>();
 
     String path = "C:\\Temp\\Hiring";    //시스템에 따라서 경로변경필요
-    String[] txt_data;
-    String cmp_data;
 
     FileReader fr = null;
     BufferedReader br = null;
@@ -28,30 +23,44 @@ public class Fucntions {
 
 
     String getStrInput(String msg) {
-        System.out.println(msg);
-        return sc.nextLine();
+//        System.out.print("");
+        while (true) {
+            try {
+                System.out.print(msg);
+                String str = sc.nextLine();
+                if (str.isEmpty()) {
+                    System.out.println("올바른 값을 입력해주세요.");
+                    continue;
+                }
+                return str;
+            } catch (Exception e) {
+                System.out.println("올바른 형식으로 입력해주세요");
+            }
+        }
     }
 
-    private void selectTypeNum() {
-        System.out.println("일반 사용자라면 사용자 모드로 접근해주십시오.");
-        System.out.println();
+    private int selectTypeNum() {
+        System.out.println("**일반 사용자라면 사용자 모드로 접근해주십시오.**");
         System.out.println("=======================");
         System.out.println(" 1. 사용자 모드    2. 관리자 모드");
         System.out.println("=======================");
         System.out.println();
+        int num = Integer.parseInt(getStrInput(""));
+
+        return num;
     }
 
-    void selectType() {
-        selectTypeNum();
-        int num = Integer.parseInt(sc.nextLine());
+    public void selectType() {
+//        selectTypeNum();
+//        int num = Integer.parseInt(sc.nextLine());
 
         while (true) {
-            switch (num) {
+            switch (selectTypeNum()) {
                 case 1:
                     System.out.println("사용자 모드를 선택하셨습니다.");
                     //유저안의 userSelect 를 띄워야합니다.
                     User user = new User();
-                    user.selectMenu_U();
+                    user.select_First();
                     break;
                 case 2:
                     System.out.println("관리자 모드를 선택하셨습니다.");
@@ -63,29 +72,33 @@ public class Fucntions {
                     System.out.println("올바른 번호를 입력해주세요.");
             }
         }
-
     }
 
     Boolean confirmMessage(String subject){    //안내용
-        Boolean check = false;
+        boolean check = false;
 
-        System.out.printf("%s 을(를) 진행하시겠습니까?\n", subject);
-        System.out.println("1. 확인   |   2. 취소");
-        int choice = Integer.parseInt(sc.nextLine());
+        while(true){
+            try {
+                System.out.printf("%s 을(를) 진행하시겠습니까?\n", subject);
+                System.out.println("1. 확인   |   2. 취소");
+                int choice = Integer.parseInt(getStrInput(""));
 
-        switch (choice){
-            case 1:
-                System.out.printf("%s 을(를) 완료하였습니다.\n", subject);
-                check = true;
-                break;
-            case 2:
-                System.out.printf("%s 을(를) 취소합니다.\n", subject);
-                break;
-            default:
-                System.out.println("잘못 입력하셨습니다.");
-                confirmMessage(subject);
+                switch (choice){
+                    case 1:
+                        System.out.printf("%s 을(를) 완료하였습니다.\n", subject);
+                        check = true;
+                        break;
+                    case 2:
+                        System.out.printf("%s 을(를) 취소합니다.\n", subject);
+                        break;
+                    default:
+                        System.out.println("잘못 입력하셨습니다.");
+                }
+                return check;
+            }catch (NumberFormatException e) {
+                System.out.println("올바른 값을 입력해주세요.\n");
+            }
         }
-        return check;
     }
 
     void fileSave(String str) throws IOException { //이메일-지원자정보 저장, 공고코드-공고명
@@ -167,21 +180,21 @@ public class Fucntions {
     void showJobList(){    //jobList 꺼내서 보여주기
 
         System.out.println("======Now Hiring======");
-        System.out.println(jobList);
+//        System.out.println(jobList);
 
 //        for(Job job : jobList){
 //            System.out.println(job);
 //        }
 
-//        for (int i = 0; i < jobList.size(); i++) {
-//            if (jobList.get(i) == null) {
-//                break;
-//            } else {
-//                System.out.println((i+1)+ ". " +jobList.get(i));
-//            }
-//        }
+        for (int i = 0; i < jobList.size(); i++) {
+            if (jobList.get(i) == null) {
+                System.out.println("현재 채용중인 공고가 없습니다.");
+                break;
+            } else {
+                System.out.println((i+1)+ ". " +jobList.get(i));
+            }
+        }
         System.out.println("======================");
-
     }
 
     void exit(){
