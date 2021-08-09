@@ -61,6 +61,19 @@ public class Admin extends Support {
         }
     }
 
+    private int selectJobList() {
+
+        System.out.println("수정할 항목을 선택 해 주세요.");
+        System.out.println("======================");
+        System.out.println("1. 채용 부서");
+        System.out.println("2. 공고 이름");
+        System.out.println("3. 관리자 메뉴로 돌아가기");
+        System.out.println("======================");
+        int num = Integer.parseInt(sc.nextLine());
+
+        return num;
+    }
+
     private void jobChange() {
         int indexOfCorrectJobList = 0;
         boolean check = false;
@@ -113,19 +126,6 @@ public class Admin extends Support {
         }
     }
 
-    private int selectJobList() {
-
-        System.out.println("수정할 항목을 선택 해 주세요.");
-        System.out.println("======================");
-        System.out.println("1. 채용 부서");
-        System.out.println("2. 공고 이름");
-        System.out.println("3. 관리자 메뉴로 돌아가기");
-        System.out.println("======================");
-        int num = Integer.parseInt(sc.nextLine());
-
-        return num;
-    }
-
     private void jobDelete() {
         System.out.println("삭제할 공고코드를 입력해주세요");
         String jobCode = sc.nextLine();
@@ -153,7 +153,7 @@ public class Admin extends Support {
         }
     }
 
-    private void candiList() {    //공고별 출력
+    private void checkCandiList() {    //공고별 출력
         int count = 1;
         Boolean check = false;
 
@@ -207,7 +207,7 @@ public class Admin extends Support {
                     case 2:                    jobChange();                    break;
                     case 3:                    showJobList();                    break;
                     case 4:                    jobDelete();                    break;
-                    case 5:                    candiList();                    break;
+                    case 5:                    checkCandiList();                    break;
                     case 6:                    selectType();                    break;
                     case 7:                    exit();
                     default:

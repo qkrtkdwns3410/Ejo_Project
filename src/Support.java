@@ -13,6 +13,53 @@ public class Support {
     static HashMap<String, Member> candiMap = new HashMap<String, Member>();
     static ArrayList<Job> jobList = new ArrayList<Job>();
 
+    //TEST용
+    static {
+        Job j = new Job();
+        j.setDepartment("HR");
+        j.setPostingDate("2021-07-21");
+        j.setJobCode("EZ_1000");
+        j.setJobName("qwe");
+        jobList.add(j);
+        Job j1 = new Job();
+        j1.setDepartment("IT");
+        j1.setPostingDate("2021-07-21");
+        j1.setJobCode("EZ_1001");
+        j1.setJobName("qwe");
+        jobList.add(j1);
+        Job j2 = new Job();
+        j2.setDepartment("FA");
+        j2.setPostingDate("2021-07-21");
+        j2.setJobCode("EZ_1002");
+        j2.setJobName("qwe");
+        jobList.add(j2);
+        Job j3 = new Job();
+        j3.setDepartment("GS");
+        j3.setPostingDate("2021-07-21");
+        j3.setJobCode("EZ_1003");
+        j3.setJobName("qwe");
+        jobList.add(j3);
+        Job j4 = new Job();
+        j4.setDepartment("MK");
+        j4.setPostingDate("2021-07-21");
+        j4.setJobCode("EZ_1004");
+        j4.setJobName("qwe");
+        jobList.add(j4);
+        Job j5 = new Job();
+        j5.setDepartment("HR");
+        j5.setPostingDate("2021-07-21");
+        j5.setJobCode("EZ_1005");
+        j5.setJobName("qwe");
+        jobList.add(j5);
+        Job j6 = new Job();
+        j6.setDepartment("MD");
+        j6.setPostingDate("2021-07-21");
+        j6.setJobCode("EZ_1006");
+        j6.setJobName("qwe");
+        jobList.add(j6);
+    }
+
+
     String path = "C:\\Temp\\Hiring";    //시스템에 따라서 경로변경필요
 
     FileReader fr = null;
