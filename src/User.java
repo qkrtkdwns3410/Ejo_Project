@@ -204,7 +204,7 @@ public class User extends Support {
 
         System.out.println("======지원 목록======");
 
-        if(candiMap.containsValue(loginMember)){
+        if(candiMap.containsKey(loginMember.getEmailAddress())){
             String[] jobCodes = loginMember.getAppliedJobCode();
 
             for (Job job : jobList) {
@@ -234,7 +234,6 @@ public class User extends Support {
     }
 
     private void applyCancel(){     //jobApply()와 매우 흡사 - 반대되는 결과만 도출
-        Member candiMember = new Member();
         String jobCode, candiEmail;
         Boolean check = false;
 
@@ -250,67 +249,44 @@ public class User extends Support {
                     check = true;
                 }
             }
-            if (check.equals(false)) {
+            if (!check) {
                 System.out.println("입력하신 공고코드는 현재 채용중인 공고가 아닙니다.");
                 applyCancel();
             }
 
-            while(true) {
-                candiEmail = getStrInput("이메일 주소를 입력하세요.\n", reg_email);
-
-                check = false;
-                for (Member member : members) {
-                    if (member.haveData(candiEmail)) {
-                        candiMember = member;   //members리스트에 담겨있는 member 불러오기
-                        member.deleteJCodes(jobCode);    //member에 jobCode 추가
-                        check = true;
-                    }
-                }
-                if(check.equals(false)) {
-                    System.out.println("입력하신 이메일 주소로 가입된 회원 정보가 없습니다.");
-                }else{
-                    break;
-                }
-            }
+//            while(true) {
+//                candiEmail = getStrInput("이메일 주소를 입력하세요.\n", reg_email);
+//
+//                check = false;
+//                for (Member member : members) {
+//                    if (member.haveData(candiEmail)) {
+//                        candiMember = member;   //members리스트에 담겨있는 member 불러오기
+//                        member.deleteJCodes(jobCode);    //member에 jobCode 추가
+//                        check = true;
+//                    }
+//                }
+//                if(!check) {
+//                    System.out.println("입력하신 이메일 주소로 가입된 회원 정보가 없습니다.");
+//                }else{
+//                    break;
+//                }
+//            }
 
             check = confirmMessage("지원 취소");
 
-            if (check.equals(true)) {
-                candiMap.remove(candiEmail, candiMember);    //지원자 정보 HashMap에서 삭제
+            if (check) {
+                loginMember.deleteJCodes(jobCode);
+                candiMap.remove(loginMember.getEmailAddress(), loginMember);    //지원자 정보 HashMap에서 삭제
             } else {
-                for (Member member : members) {
-                    if (member.haveData(candiEmail)) {
-                        member.appliedJCodes(jobCode);    //member에 저장된 appliedJobCode 지우기
-                    }
-                }
+//                for (Member member : members) {
+//                    if (member.haveData(candiEmail)) {
+//                        member.appliedJCodes(jobCode);    //member에 저장된 appliedJobCode 지우기
+//                    }
+//                }
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-
-
-
-//        jobCode = getStrInput("지원한 공고의 코드를 입력하세요.\n");
-//        candiEmail = getStrInput("이메일 주소를 입력하세요.\n");
-
-//        for (Member member : members) {
-//            if (member.haveData(candiEmail)) {
-//                candiMember = member;   //members리스트에 담겨있는 member 불러오기
-//                member.deleteJCodes(jobCode);
-//            }
-//        }
-//
-//        Boolean check = confirmMessage("지원취소");
-//
-//        if(check.equals(true)){
-//            candiMap.remove(candiMember.getEmailAddress(), candiMember);    //지원자 정보 HashMap에서 삭제
-//        }else{
-//            for (Member member : members) {
-//                if (member.haveData(candiEmail)) {
-//                    member.appliedJCodes(jobCode);
-//                }
-//            }
-//        }
     }
 
 
