@@ -55,19 +55,32 @@ class Member {
         this.passWord = passWord;
     }
 
-    void appliedJCodes(String jobCode){
-        for(int i= 0; i < appliedJobCode.length; i++){
-            if(appliedJobCode[i] != null){
-                appliedJobCode[i] = jobCode;
-                break;
+    Boolean addAppliedJCodes(String jobCode){
+        boolean fullCheck = true;
+
+        for(String s : appliedJobCode){
+            if(s == null){
+                fullCheck = false;
             }
         }
+        if(!fullCheck){
+            for(int i= 0; i < appliedJobCode.length; i++){
+                if(appliedJobCode[i] == null){
+                    appliedJobCode[i] = jobCode;
+                    break;
+                }
+            }
+        }else {
+            System.out.println("이미 5개의 공고에 지원하셨습니다.");
+        }
+        return fullCheck;
     }
 
     void deleteJCodes(String jobCode){
         for(int i = 0; i < appliedJobCode.length; i++){
             if(appliedJobCode[i].equals(jobCode)){
                 appliedJobCode[i] = null;
+                break;
             }
         }
     }

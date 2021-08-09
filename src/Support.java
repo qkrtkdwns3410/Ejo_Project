@@ -136,7 +136,7 @@ public class Support {
                         check = true;
                         break;
                     case 2:
-                        System.out.printf("%s 을(를) 취소합니다.\n", subject);
+                        System.out.printf("%s 을(를) 진행하지 않습니다.\n", subject);
                         break;
                     default:
                         System.out.println("잘못 입력하셨습니다.");

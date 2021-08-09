@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 /*
@@ -129,13 +129,24 @@ public class User extends Support {
     }
 
     private void jobApply(){
-//        Member candiMember = new Member();
-        String jobCode; //candiEmail;
+        String jobCode;
         Boolean check = false;
-
 
         try {
             jobCode = getStrInput("지원할 공고의 코드를 입력하세요. (ex. EZ_1000)\n", reg_jobCode);
+
+            for(int i = 0; i < loginMember.getAppliedJobCode().length; i++){
+                if(loginMember.getAppliedJobCode()[i] == (null)){
+                    break;
+                }else if(loginMember.getAppliedJobCode()[i].equals(jobCode)){
+                    System.out.println("이미 지원한 공고입니다.");
+                    jobApply();
+                }
+            }
+
+            if(loginMember.addAppliedJCodes(jobCode)){    //5개 초과 지원 방지!!
+                selectMenu_U();    //User메인메뉴로 돌아가기
+            }
 
             //JobList에 있는지 여부 확인
             for (Job j : jobList) {
@@ -144,6 +155,7 @@ public class User extends Support {
                     System.out.println(j);
                     System.out.println("========================");
                     check = true;
+                    break;
                 }
             }
             if (check.equals(false)) {
@@ -173,12 +185,14 @@ public class User extends Support {
             check = confirmMessage("지원");
 
             if (check) {
-                loginMember.appliedJCodes(jobCode);
-                candiMap.put(loginMember.getEmailAddress(), loginMember);    //지원자 정보 HashMap저장
+//                loginMember.addAppliedJCodes(jobCode);
+                candiMap.put(loginMember.getEmailAddress(), loginMember);   //지원자 정보 HashMap저장
+                selectMenu_U();
             } else {
 //                for (Member member : members) {
 //                    if (member.haveData(loginMember.getEmailAddress())) {
-////                        loginMember.deleteJCodes(jobCode);    //member에 저장된 appliedJobCode 지우기
+                loginMember.deleteJCodes(jobCode);    //member에 저장된 appliedJobCode 지우기
+                selectMenu_U();
 //                    }
 //                }
             }
@@ -233,14 +247,28 @@ public class User extends Support {
 //        }
     }
 
-    private void applyCancel(){     //jobApply()와 매우 흡사 - 반대되는 결과만 도출
-        String jobCode, candiEmail;
+    private void applyCancel(){     //jobApply()와 흡사 - 반대되는 결과 도출
+        String jobCode;
         Boolean check = false;
 
         try {
             jobCode = getStrInput("지원한 공고의 코드를 입력하세요. (ex. EZ_1000)\n", reg_jobCode);
 
+            //회원이 지원하지 않은 공고일 경우
+            for(int i = 0; i < loginMember.getAppliedJobCode().length; i++){
+                if(loginMember.getAppliedJobCode()[i] == (null)) {
+                    break;
+                } else if(loginMember.getAppliedJobCode()[i].equals(jobCode)){
+                    check = true;
+                }
+            }
+            if(!check){
+                System.out.println("지원한 공고가 아닙니다.");
+                applyCancel();
+            }
+
             //JobList에 있는지 여부 확인
+            check = false;    //check 재할당
             for (Job j : jobList) {
                 if (j.getJobCode().equals(jobCode)) {
                     System.out.println("=======지원한 공고=======");
@@ -277,7 +305,9 @@ public class User extends Support {
             if (check) {
                 loginMember.deleteJCodes(jobCode);
                 candiMap.remove(loginMember.getEmailAddress(), loginMember);    //지원자 정보 HashMap에서 삭제
+                selectMenu_U();
             } else {
+                selectMenu_U();
 //                for (Member member : members) {
 //                    if (member.haveData(candiEmail)) {
 //                        member.appliedJCodes(jobCode);    //member에 저장된 appliedJobCode 지우기
