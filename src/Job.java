@@ -1,7 +1,7 @@
 /*
 
  */
-public class Job {
+public class Job{
     private String jobCode;
     private String department;
     private String jobName;
@@ -39,6 +39,10 @@ public class Job {
         this.postingDate = postingDate;
     }
 
+
+    public String getAllJob() {
+        return jobCode + " " + department + " " + jobName + " " + postingDate;
+    }
 
     @Override
     public String toString() {

@@ -1,35 +1,15 @@
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /*
 
  */
 public class User extends Support {
-    ArrayList<Member> members = new ArrayList<Member>();
     Member loginMember;
-
-    String reg_Pwd = "^.*(?=^.{8,15}$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$";
-    String reg_Name = "^[가-힣a-zA-Z]+$";
-    String reg_PhoneNumber = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$";
-    String reg_BirthDate = "^(19[0-9][0-9]|20[0-9][0-9])-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$";
-    String reg_jobCode = "^EZ_[1-9][0-9][0-9][0-9]$";
-    String reg_email = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$";
-
-    //TEST용 생성자함수
-    public User() {
-        for (int i = 0; i < 3; i++) {
-            Member m = new Member();
-            setMember(m,i+"",i+"qq@naver.com",i+"qqqqqq@","010-1111-111"+i,"199"+i+"-11-03");
-            members.add(m);
-        }
-    }
-
-
 
    public ArrayList<Member> join(){       //**회원정보 저장여부 논의 필요 >>fileSave()
        Member member = new Member();
-
 
        System.out.println("======회원정보입력======");
        String name = getStrInput("이름 :", reg_Name);
@@ -85,25 +65,16 @@ public class User extends Support {
         return check;
     }
 
-    private boolean checkReg(String reg, String data) {
-        boolean result = Pattern.matches(reg, data);
-        return result;
-    }
-
-    private String getStrInput(String msg, String reg) {    //Support에 있는 함수 Overload
-        while (true) {
-            System.out.print(msg);
-            String str = sc.nextLine();
-            if (checkReg(reg, str)) {
-                //형식이 맞는 경우
-                return str;
-            } else {
-                System.out.println("**잘못 입력하셨습니다 !**");
+    private Member findById(String email, ArrayList<Member> members) {
+        for (Member member : members) {
+            if (member.haveData(email)) {
+                return member;
             }
         }
+        return null;
     }
 
-
+    //=========================================================================
     public void login(){
         String email = getStrInput("   Email : ", reg_email);
         String pw = getStrInput("PassWord : ");
@@ -119,15 +90,7 @@ public class User extends Support {
         }
     }
 
-    private Member findById(String email, ArrayList<Member> members) {
-        for (Member member : members) {
-            if (member.haveData(email)) {
-                return member;
-            }
-        }
-        return null;
-    }
-
+    //=========================================================================
     private void jobApply(){
         String jobCode;
         Boolean check = false;
@@ -141,6 +104,7 @@ public class User extends Support {
                 }else if(loginMember.getAppliedJobCode()[i].equals(jobCode)){
                     System.out.println("이미 지원한 공고입니다.");
                     jobApply();
+                    break;
                 }
             }
 
@@ -158,49 +122,50 @@ public class User extends Support {
                     break;
                 }
             }
-            if (check.equals(false)) {
+            if (!check) {
                 System.out.println("입력하신 공고코드는 현재 채용중인 공고가 아닙니다.");
                 jobApply();
             }
 
-//            while(true) {
-//                candiEmail = getStrInput("이메일 주소를 입력하세요.\n", reg_email);
-//
-////                check = false;
-////                for (Member member : members) {
-////                    if (member.haveData(candiEmail)) {
-////                        candiMember = member;   //members리스트에 담겨있는 member 불러오기
-////                        candiMember.appliedJCodes(jobCode);    //member에 jobCode 추가
-////                        check = true;
-////                    }
-////                }
-//
-//                if(loginMember.getEmailAddress().equals(candiEmail)) {
-//                    break;
-//                }else{
-//                    System.out.println("로그인시 이용한 이메일 주소를 입력해 주세요.");
-//                }
-//            }
+    //            while(true) {
+    //                candiEmail = getStrInput("이메일 주소를 입력하세요.\n", reg_email);
+    //
+    ////                check = false;
+    ////                for (Member member : members) {
+    ////                    if (member.haveData(candiEmail)) {
+    ////                        candiMember = member;   //members리스트에 담겨있는 member 불러오기
+    ////                        candiMember.appliedJCodes(jobCode);    //member에 jobCode 추가
+    ////                        check = true;
+    ////                    }
+    ////                }
+    //
+    //                if(loginMember.getEmailAddress().equals(candiEmail)) {
+    //                    break;
+    //                }else{
+    //                    System.out.println("로그인시 이용한 이메일 주소를 입력해 주세요.");
+    //                }
+    //            }
 
             check = confirmMessage("지원");
 
             if (check) {
-//                loginMember.addAppliedJCodes(jobCode);
-                candiMap.put(loginMember.getEmailAddress(), loginMember);   //지원자 정보 HashMap저장
-                selectMenu_U();
+    //                loginMember.addAppliedJCodes(jobCode);
+                candiMap.put(loginMember.getEmailAddress(), loginMember);
+                    selectMenu_U();
             } else {
-//                for (Member member : members) {
-//                    if (member.haveData(loginMember.getEmailAddress())) {
+    //                for (Member member : members) {
+    //                    if (member.haveData(loginMember.getEmailAddress())) {
                 loginMember.deleteJCodes(jobCode);    //member에 저장된 appliedJobCode 지우기
-                selectMenu_U();
-//                    }
-//                }
+                    selectMenu_U();
+    //                    }
+    //                }
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
 
+    //=========================================================================
     private void applyCheck() {    //candiMap에 저장된 member 불러오기
 
 //        String findEmail = getStrInput("이메일 주소를 입력하세요.\n", reg_email);
@@ -247,6 +212,7 @@ public class User extends Support {
 //        }
     }
 
+    //=========================================================================
     private void applyCancel(){     //jobApply()와 흡사 - 반대되는 결과 도출
         String jobCode;
         Boolean check = false;
@@ -279,7 +245,7 @@ public class User extends Support {
             }
             if (!check) {
                 System.out.println("입력하신 공고코드는 현재 채용중인 공고가 아닙니다.");
-                applyCancel();
+                return;
             }
 
 //            while(true) {
@@ -304,22 +270,27 @@ public class User extends Support {
 
             if (check) {
                 loginMember.deleteJCodes(jobCode);
-                candiMap.remove(loginMember.getEmailAddress(), loginMember);    //지원자 정보 HashMap에서 삭제
+
+                for(int i = 0; true; i++) {
+                    if (!loginMember.getAppliedJobCode()[i].isEmpty()) {
+                        check = true;
+                        break;
+                    }
+                }
+                if(!check){
+                    candiMap.remove(loginMember.getEmailAddress(), loginMember);    //지원자 정보 HashMap에서 삭제
+                }
+
                 selectMenu_U();
             } else {
                 selectMenu_U();
-//                for (Member member : members) {
-//                    if (member.haveData(candiEmail)) {
-//                        member.appliedJCodes(jobCode);    //member에 저장된 appliedJobCode 지우기
-//                    }
-//                }
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
 
-
+    //=========================================================================
     private String select_First_Num() {
         System.out.println("==================");
         System.out.println("1. 회원가입");
@@ -342,6 +313,7 @@ public class User extends Support {
         }
     }
 
+    //=========================================================================
     private String showMenu_U(){
         System.out.println("======================");
         System.out.println("1. 채용중인 공고 확인");

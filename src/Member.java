@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 /*
 
  */
@@ -19,41 +17,20 @@ class Member {
         this.name = name;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
-    }
+    public String getEmailAddress() { return emailAddress; }
 
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
+    public void setEmailAddress(String emailAddress) { this.emailAddress = emailAddress; }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+    public void setBirthDate(String birthDate) { this.birthDate = birthDate; }
 
-    public String getBirthDate() {
-        return birthDate;
-    }
+    public void setPassWord(String passWord) { this.passWord = passWord; }
 
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
-    }
+    public String[] getAppliedJobCode() { return appliedJobCode; }
 
-    public String[] getAppliedJobCode() {
-        return appliedJobCode;
-    }
+    public void setAppliedJobCode(String[] appliedJobCode) { this.appliedJobCode = appliedJobCode; }
 
-    public String getPassWord() {
-        return passWord;
-    }
-
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
-    }
 
     Boolean addAppliedJCodes(String jobCode){
         boolean fullCheck = true;
@@ -85,7 +62,6 @@ class Member {
         }
     }
 
-
     Boolean haveData(String data) {
         Boolean check = false;
 
@@ -101,4 +77,20 @@ class Member {
         return "이름 : '" + name + ", 이메일주소 : " + emailAddress + ", 전화번호 : " + phoneNumber +", 생년월일 : " + birthDate;
     }
 
+    //File 생성시 사용되는 함수
+    public String appliedJobCodePrint() {
+        String strArr = "";
+        for (int i = 0; i < appliedJobCode.length; i++) {
+            if (appliedJobCode[i] == null) {
+                strArr += "0 ";
+            } else {
+                strArr += appliedJobCode[i]+" ";
+            }
+        }
+        return strArr;
+    }
+
+    public String getAllMember() {
+        return  name + " " + emailAddress +" "+passWord+ " " + phoneNumber +" " + birthDate+" "+appliedJobCodePrint();
+    }
 }

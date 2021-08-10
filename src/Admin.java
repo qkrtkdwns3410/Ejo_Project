@@ -10,10 +10,11 @@ public class Admin extends Support {
     private Job job;
 
     public Admin() {
-        this.num = 1000;
+        this.num = 1000;    //공고 시작번호
         this.adminPWD = "Ejo";
     }
 
+    //=========================================================================
     public Boolean adminCheck() {   //비밀번호 1개 설정 후, 이용
         while (true) {
             System.out.println("**초기화면으로 돌아가려면 0 (숫자 영)을 입력하세요**");
@@ -35,6 +36,7 @@ public class Admin extends Support {
         }
     }
 
+    //=========================================================================
     private void jobOpening() {
         job = new Job();
 
@@ -61,6 +63,7 @@ public class Admin extends Support {
         }
     }
 
+    //=========================================================================
     private int selectJobList() {
 
         System.out.println("수정할 항목을 선택 해 주세요.");
@@ -94,6 +97,7 @@ public class Admin extends Support {
             if (!check) {
                 System.out.println("해당하는 공고 코드가 없습니다.");
                 System.out.println("관리자 메뉴로 돌아갑니다.");
+                return;
             }
 
             while (true) {
@@ -126,6 +130,7 @@ public class Admin extends Support {
         }
     }
 
+    //=========================================================================
     private void jobDelete() {
         System.out.println("삭제할 공고코드를 입력해주세요");
         String jobCode = sc.nextLine();
@@ -140,7 +145,7 @@ public class Admin extends Support {
 
                     Boolean check = confirmMessage("공고 삭제");
 
-                    if (check.equals(true)) {
+                    if (check) {
                         jobList.remove(job);
                     }
                 }
@@ -153,36 +158,43 @@ public class Admin extends Support {
         }
     }
 
+    //=========================================================================
     private void checkCandiList() {    //공고별 출력
         int count = 1;
         Boolean check = false;
 
-        System.out.println("출력할 지원자리스트의 공고 코드를 입력하세요");
-        String findCode = sc.nextLine();
+        String findCode = getStrInput("출력할 지원자리스트의 공고 코드를 입력하세요\n", reg_jobCode);
 
         for(Job j : jobList){    //findCode를 가지고 있는 공고 출력
             if(j.getJobCode().equals(findCode)){
+                check = true;
+                System.out.println("**********공고내용**********");
                 System.out.println(j);
-                System.out.println("************************");
+                System.out.println("*****************************");
+                break;
             }
         }
+        if(!check){
+            System.out.println("현재 채용중인 공고의 공고코드가 아닙니다.");
+            return;
+        }
 
+        check = false;    //재할당
         for (int i = 0; i < candiMap.size(); i++) {    //지원한 사람 출력
             for (Map.Entry<String, Member> entry : candiMap.entrySet()) {
-                if (entry.getValue().haveData(findCode)) {
+                if (entry.getValue().getAppliedJobCode()[i].equals(findCode)) {
                     System.out.println(count + ". "+ entry.getValue());
                     count++;
                     check = true;
                 }
             }
         }
-
-        if (check.equals(false)) {
+        if (!check) {
             System.out.println("해당 공고에 지원한 지원자가 없습니다.");
         }
     }
 
-
+    //=========================================================================
     private int showMenu_A() {
         System.out.println("======================");
         System.out.println("1. 공고 올리기");
@@ -214,10 +226,8 @@ public class Admin extends Support {
                         System.out.println("알맞은 메뉴 번호를 입력해주세요.");
                 }
             }catch (Exception e){
-                System.out.println("잘못 입력하셨습니다.");
+                e.printStackTrace();
             }
-
-
         }
     }
 }
