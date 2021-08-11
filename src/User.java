@@ -97,7 +97,7 @@ public class User extends Support {
 
         try {
             jobCode = getStrInput("지원할 공고의 코드를 입력하세요. (ex. EZ_1000)\n", reg_jobCode);
-
+            
             for(int i = 0; i < loginMember.getAppliedJobCode().length; i++){
                 if(loginMember.getAppliedJobCode()[i] == (null) ){
                     break;
@@ -224,8 +224,8 @@ public class User extends Support {
 
             //회원이 지원하지 않은 공고일 경우
             for(int i = 0; i < loginMember.getAppliedJobCode().length; i++){
-                if(loginMember.getAppliedJobCode()[i] == (null)) {
-                    break;
+                if(loginMember.getAppliedJobCode()[i] == null) {
+                
                 } else if(loginMember.getAppliedJobCode()[i].equals(jobCode)){
                     check = true;
                 }

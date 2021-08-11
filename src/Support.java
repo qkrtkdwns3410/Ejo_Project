@@ -152,9 +152,9 @@ public class Support {
                 String str = sc.nextLine();
                 if (str.isEmpty()) {
                     System.out.println("올바른 값을 입력해주세요.");
-                    continue;
+                } else {
+                    return str;
                 }
-                return str;
             } catch (Exception e) {
                 System.out.println("올바른 형식으로 입력해주세요");
             }

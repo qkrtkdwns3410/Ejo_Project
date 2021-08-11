@@ -129,7 +129,7 @@ public class Admin extends Support {
             }
             
         } catch (Exception e) {
-            System.out.println("에러메시지 : " + e.getMessage());
+            e.printStackTrace();
         }
     }
     
@@ -165,7 +165,7 @@ public class Admin extends Support {
                 System.out.println("입력하신 코드는 등록되지 않은 공고코드 입니다.");
             }
         } catch (Exception e) {
-            System.out.println("에러메세지 : " + e.getMessage());
+        
         }
     }
     
