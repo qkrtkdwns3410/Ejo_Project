@@ -14,8 +14,12 @@ public class Main {
 //        }catch (Exception e){
 //            System.out.println("에러메세지 : "+e.getMessage());
 //        }
-
-        spt.selectType();
+        try {
+            spt.fileLoadingPrevSelectType();
+        
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 }

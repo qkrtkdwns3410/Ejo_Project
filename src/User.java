@@ -99,22 +99,22 @@ public class User extends Support {
             jobCode = getStrInput("지원할 공고의 코드를 입력하세요. (ex. EZ_1000)\n", reg_jobCode);
 
             for(int i = 0; i < loginMember.getAppliedJobCode().length; i++){
-                if(loginMember.getAppliedJobCode()[i] == (null)){
+                if(loginMember.getAppliedJobCode()[i] == (null) ){
                     break;
                 }else if(loginMember.getAppliedJobCode()[i].equals(jobCode)){
-                    System.out.println("이미 지원한 공고입니다.");
-                    jobApply();
+                    System.out.println("이미 지원한 공고이거나 또는 없는 공고입니다.");
+                    selectMenu_U();
                     break;
                 }
             }
-
-            if(loginMember.addAppliedJCodes(jobCode)){    //5개 초과 지원 방지!!
-                selectMenu_U();    //User메인메뉴로 돌아가기
-            }
+            
 
             //JobList에 있는지 여부 확인
             for (Job j : jobList) {
                 if (j.getJobCode().equals(jobCode)) {
+                    if(loginMember.addAppliedJCodes(jobCode)){    //5개 초과 지원 방지!!
+                        selectMenu_U();    //User메인메뉴로 돌아가기
+                    }
                     System.out.println("=======지원할 공고=======");
                     System.out.println(j);
                     System.out.println("========================");
@@ -167,7 +167,7 @@ public class User extends Support {
 
     //=========================================================================
     private void applyCheck() {    //candiMap에 저장된 member 불러오기
-
+        boolean check = false;
 //        String findEmail = getStrInput("이메일 주소를 입력하세요.\n", reg_email);
 //
 //        Boolean check = false;
@@ -190,10 +190,12 @@ public class User extends Support {
                 for (String jobCode : jobCodes) {
                     if (job.getJobCode().equals(jobCode)) {
                         System.out.println(job);
+                        check =true;
                     }
                 }
             }
-        }else {
+        }
+        if (!check) {
             System.out.println("지원한 공고가 없습니다.");
         }
 

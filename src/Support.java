@@ -23,74 +23,78 @@ public class Support {
     String reg_jobCode = "^EZ_[1-9][0-9][0-9][0-9]$";
 
     //TEST용
-    static {
-        Job j = new Job();
-        j.setDepartment("HR");
-        j.setPostingDate("2021-07-21");
-        j.setJobCode("EZ_1000");
-        j.setJobName("qwe");
-        jobList.add(j);
-        Job j1 = new Job();
-        j1.setDepartment("IT");
-        j1.setPostingDate("2021-07-21");
-        j1.setJobCode("EZ_1001");
-        j1.setJobName("qwe");
-        jobList.add(j1);
-        Job j2 = new Job();
-        j2.setDepartment("FA");
-        j2.setPostingDate("2021-07-21");
-        j2.setJobCode("EZ_1002");
-        j2.setJobName("qwe");
-        jobList.add(j2);
-        Job j3 = new Job();
-        j3.setDepartment("GS");
-        j3.setPostingDate("2021-07-21");
-        j3.setJobCode("EZ_1003");
-        j3.setJobName("qwe");
-        jobList.add(j3);
-        Job j4 = new Job();
-        j4.setDepartment("MK");
-        j4.setPostingDate("2021-07-21");
-        j4.setJobCode("EZ_1004");
-        j4.setJobName("qwe");
-        jobList.add(j4);
-        Job j5 = new Job();
-        j5.setDepartment("HR");
-        j5.setPostingDate("2021-07-21");
-        j5.setJobCode("EZ_1005");
-        j5.setJobName("qwe");
-        jobList.add(j5);
-        Job j6 = new Job();
-        j6.setDepartment("MD");
-        j6.setPostingDate("2021-07-21");
-        j6.setJobCode("EZ_1006");
-        j6.setJobName("qwe");
-        jobList.add(j6);
-
-        Member m = new Member();
-        Member m2 = new Member();
-        m.setPhoneNumber("010-2520-4929");
-        m.setPassWord("1q2w3e4r!@");
-        m.setName("qwe");
-        m.setEmailAddress("qweqweqwe@naver.com");
-        m.setBirthDate("1995-11-03");
-
-        m2.setPhoneNumber("010-3333-4929");
-        m2.setPassWord("1q2w3e4r!@");
-        m2.setName("qwe2");
-        m2.setEmailAddress("qweqwe@naver.com");
-        m2.setBirthDate("1995-11-03");
-
-        members.add(m);
-        members.add(m2);
-    }
+//    static {
+//        Job j = new Job();
+//        j.setDepartment("HR");
+//        j.setPostingDate("2021-07-21");
+//        j.setJobCode("EZ_1000");
+//        j.setJobName("qwe");
+//        jobList.add(j);
+//        Job j1 = new Job();
+//        j1.setDepartment("IT");
+//        j1.setPostingDate("2021-07-21");
+//        j1.setJobCode("EZ_1001");
+//        j1.setJobName("qwe");
+//        jobList.add(j1);
+//        Job j2 = new Job();
+//        j2.setDepartment("FA");
+//        j2.setPostingDate("2021-07-21");
+//        j2.setJobCode("EZ_1002");
+//        j2.setJobName("qwe");
+//        jobList.add(j2);
+//        Job j3 = new Job();
+//        j3.setDepartment("GS");
+//        j3.setPostingDate("2021-07-21");
+//        j3.setJobCode("EZ_1003");
+//        j3.setJobName("qwe");
+//        jobList.add(j3);
+//        Job j4 = new Job();
+//        j4.setDepartment("MK");
+//        j4.setPostingDate("2021-07-21");
+//        j4.setJobCode("EZ_1004");
+//        j4.setJobName("qwe");
+//        jobList.add(j4);
+//        Job j5 = new Job();
+//        j5.setDepartment("HR");
+//        j5.setPostingDate("2021-07-21");
+//        j5.setJobCode("EZ_1005");
+//        j5.setJobName("qwe");
+//        jobList.add(j5);
+//        Job j6 = new Job();
+//        j6.setDepartment("MD");
+//        j6.setPostingDate("2021-07-21");
+//        j6.setJobCode("EZ_1006");
+//        j6.setJobName("qwe");
+//        jobList.add(j6);
+//
+//        Member m = new Member();
+//        Member m2 = new Member();
+//        m.setPhoneNumber("010-2520-4929");
+//        m.setPassWord("1q2w3e4r!@");
+//        m.setName("qwe");
+//        m.setEmailAddress("qweqweqwe@naver.com");
+//        m.setBirthDate("1995-11-03");
+//        m.setAppliedJobCode(new String[]{"EZ_1000","EZ_1001","EZ_1002","EZ_1003","EZ_1004"});
+//        m2.setPhoneNumber("010-3333-4929");
+//        m2.setPassWord("1q2w3e4r!@");
+//        m2.setName("qwe2");
+//        m2.setEmailAddress("qweqwe@naver.com");
+//        m2.setBirthDate("1995-11-03");
+//
+//        members.add(m);
+//        members.add(m2);
+//
+//        candiMap.put("qweqweqwe@naver.com", members.get(0));
+//        candiMap.put("qweqwe@naver.com", members.get(1));
+//
+//    }
 
     //=========================================================================
     private int selectTypeNum() {
         System.out.println("**일반 사용자라면 사용자 모드로 접근해주십시오.**");
-        System.out.println("=======================");
-        System.out.println(" 1. 사용자 모드    2. 관리자 모드");
-        System.out.println("=======================");
+        System.out.println("====================================");
+        System.out.println(" 1. 사용자 모드    2. 관리자 모드    3.프로그램 종료");
+        System.out.println("====================================");
         System.out.println();
         int num = Integer.parseInt(getStrInput(""));
 
@@ -113,6 +117,9 @@ public class Support {
                     Admin admin = new Admin();
                     admin.adminCheck();
                     break;
+                case 3:
+                    System.out.println("프로그램을 종료합니다.");
+                    exit();
                 default:
                     System.out.println("올바른 번호를 입력해주세요.");
             }
@@ -122,15 +129,19 @@ public class Support {
     //=========================================================================
     public void fileLoadingPrevSelectType() {
         try {
-            inOut.fileLoad("C:\\Temp\\Hiring\\members.txt");
-            inOut.fileLoad("C:\\Temp\\Hiring\\jobList.txt");
+            inOut.folderMake();
+            inOut.membersLoad();
+            inOut.jobListLoad();
+//            inOut.fileLoad("C:\\Temp\\Hiring\\members.txt");
+//            inOut.fileLoad("C:\\Temp\\Hiring\\jobList.txt");
             inOut.fileLoad("C:\\Temp\\Hiring\\candiMap.txt");
-            inOut.fileDelete("C:\\Temp\\Hiring\\members.txt");
-            inOut.fileDelete("C:\\Temp\\Hiring\\jobList.txt");
+//            inOut.fileDelete("C:\\Temp\\Hiring\\members.txt");
+//            inOut.fileDelete("C:\\Temp\\Hiring\\jobList.txt");
             inOut.fileDelete("C:\\Temp\\Hiring\\candiMap.txt");
         } catch (Exception e) {
             e.printStackTrace();
         }
+        selectType();
     }
 
     //=========================================================================
@@ -197,6 +208,8 @@ public class Support {
         }
     }
 
+    
+    
     //=========================================================================
     void showJobList(){    //jobList 꺼내서 보여주기
 
@@ -221,6 +234,17 @@ public class Support {
     //=========================================================================
     void exit(){    //**File저장관련 기능 추가해 줘야합니다 :)
         System.out.println("프로그램을 종료합니다.");
+        try {
+            inOut.folderMake();
+            inOut.jobfileSave();
+            inOut.memfileSave();
+            inOut.fileSave();
+            inOut.filesave2();
+            inOut.fileSaveMap();
+        
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         System.exit(0);
         sc.close();
     }

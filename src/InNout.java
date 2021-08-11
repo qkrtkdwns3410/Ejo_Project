@@ -1,17 +1,126 @@
 import java.io.*;
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /*
  
  */
 public class InNout {
     String path = "C:\\Temp\\Hiring\\";    //시스템에 따라서 경로변경필요
-
+    
     FileReader fr = null;
     BufferedReader br = null;
-
+    
     BufferedWriter bw = null;
     FileWriter fw = null;
+    
+    FileInputStream fis = null;
+    ObjectInputStream ois = null;
+    
+    FileOutputStream fos = null;
+    ObjectOutputStream oos = null;
+    void jobListLoad() throws Exception {   //생성한 객체를 역직렬화하여 파일에 저장.
+        boolean check = false;
+        
+        File jlist = new File("jobList.txt");
+        
+        if (!jlist.exists()) {
+            System.out.println("로드할 공고데이터가 없습니다.");
+            return;
+        } else {
+            try {
+                fis = new FileInputStream(jlist);   //joblist.txt의 값을 읽어옴.
+                ois = new ObjectInputStream(fis);
+                
+                ArrayList<Job> arr = (ArrayList<Job>) ois.readObject();
+                Support.jobList = arr;
+                
+                ois.close();
+                fis.close();
+                //
+                System.out.println(Support.jobList);
+                //
+                
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+    
+    
+    void membersLoad() throws Exception {   //직렬화된 객체 read
+        
+        File mlist = new File("members.txt");
+        
+        if (!mlist.exists()) {
+            System.out.println("로드할 멤버데이터가 없습니다.");
+            return;
+        } else {
+            try {
+                FileInputStream fis = new FileInputStream(mlist);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                ArrayList<Member> arr = (ArrayList<Member>) ois.readObject();
+                Support.members = arr;
+                ois.close();
+                fis.close();
+                System.out.println(Support.members);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }finally {
+            
+            }
+        }
+    }
+    
+    void memfileSave() {       //members의 값을 불러와서 joblist.txt에 값을 저장한다. == 직렬화
+        File txtfile = new File("members.txt"); //
+        
+        try {
+            fos = new FileOutputStream(txtfile);
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(Support.members);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                oos.close();
+                fos.close();
+            } catch (Exception e2) {
+                System.out.println(e2.getMessage());
+            }
+        }
+    }
+    
+    void jobfileSave() {       //joblist의 값을 불러와서 joblist.txt에 값을 저장한다. == 직렬화
+        File txtfile = new File("jobList.txt"); //
+        
+        try {
+            fos = new FileOutputStream(txtfile);    //jobList.txt 존재안할때만 jobList.txt 파일 시스템에 생성.
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(Support.jobList);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                oos.close();
+                fos.close();
+            } catch (Exception e2) {
+                System.out.println(e2.getMessage());
+            }
+        }
+    }       //공고리스트가 2번씩 저장됨.
+    
+    
+    void folderMake() {
+        File folder = new File(path);
+        boolean check = folder.mkdir();   //boolean
+        
+        if (check) {
+            folder.mkdir(); //폴더생성
+        }
+    }
     
     void fileSave() throws IOException { //이메일-지원자정보 저장, 공고코드-공고명
         File txtfile = new File(path + "jobList.txt");
@@ -40,6 +149,7 @@ public class InNout {
         }
         
     }
+    
     void fileSaveMap() {
         try {
             File file = new File(path + "candiMap.txt");
@@ -53,7 +163,7 @@ public class InNout {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (bw != null) {
                     bw.close();
@@ -91,6 +201,7 @@ public class InNout {
             }
         }
     }
+    
     void fileDelete(String path) throws IOException {        //.txt파일 지우는것
 //        String filepath;
 //        filepath = (this.path + filename + ".txt");
@@ -111,6 +222,7 @@ public class InNout {
         }
         //존재한다면 지워야함 filename과 동일한 친구 지우면됨.
     }
+    
     void fileLoad(String filePath) throws Exception {
         try {
             File f = new File(filePath);
@@ -141,8 +253,15 @@ public class InNout {
                 //1. phonelist를 그냥 쓸 수 있는 이유 필드에서 static으로 지정
                 //2. arraylist 형식의 phonelist 변수에 넣기 위해 add 함수 사용
                 //3. add 함수 내에 PhoneItem 인스턴스를 생성해야 가져다 사용할 수 있다는 점도 포인트다
+                String[] jobCodeArr = new String[5];
                 if (filePath.contains("members")) {
-                    String[] jobCodeArr = {strArray[5], strArray[6], strArray[7], strArray[8], strArray[9]};
+                    
+                    for (int j = 5; j < 10; j++) {
+                        if (!strArray[j].equals("0")) {
+                            jobCodeArr[j - 5] = strArray[j];
+                        }
+                    }
+                    
                     
                     Member m = new Member();
                     m.setName(strArray[0]);
@@ -161,7 +280,12 @@ public class InNout {
                     j.setPostingDate(strArray[3]);
                     Support.jobList.add(j);
                 } else if (filePath.contains("candiMap")) {
-                    String[] jobCodeArr = {strArray[6], strArray[7], strArray[8], strArray[9], strArray[10]};
+                    
+                    for (int j = 6; j < 11; j++) {
+                        if (!strArray[j].equals("0")) {
+                            jobCodeArr[j - 6] = strArray[j];
+                        }
+                    }
                     
                     Member m = new Member();
                     m.setName(strArray[1]);
@@ -180,4 +304,5 @@ public class InNout {
             e.printStackTrace();
         }
     }
+    
 }
