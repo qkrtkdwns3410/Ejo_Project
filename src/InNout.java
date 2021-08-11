@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collection;
 
 /*
  
@@ -19,6 +18,7 @@ public class InNout {
     
     FileOutputStream fos = null;
     ObjectOutputStream oos = null;
+    
     void jobListLoad() throws Exception {   //생성한 객체를 역직렬화하여 파일에 저장.
         boolean check = false;
         
@@ -37,9 +37,7 @@ public class InNout {
                 
                 ois.close();
                 fis.close();
-                //
-                System.out.println(Support.jobList);
-                //
+                
                 
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -66,7 +64,7 @@ public class InNout {
                 System.out.println(Support.members);
             } catch (Exception e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
             
             }
         }
@@ -122,34 +120,6 @@ public class InNout {
         }
     }
     
-    void fileSave() throws IOException { //이메일-지원자정보 저장, 공고코드-공고명
-        File txtfile = new File(path + "jobList.txt");
-        
-        try {
-            for (Job j : Support.jobList) {
-                String[] arr2 = j.getAllJob().split(" ");
-                
-                BufferedWriter bw = new BufferedWriter(new FileWriter(txtfile, true));
-                for (String str : arr2) {
-                    bw.write(str + " ");
-                    //객체 닫기
-                }
-                bw.write("\n");
-                bw.flush();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (bw != null)
-                    bw.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        
-    }
-    
     void fileSaveMap() {
         try {
             File file = new File(path + "candiMap.txt");
@@ -169,34 +139,6 @@ public class InNout {
                     bw.close();
                 }
             } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    
-    void filesave2() throws IOException {
-        File txtfile = new File(path + "members.txt");
-        
-        try {
-            for (Member m : Support.members) {
-                String[] arr2 = m.toString().split(" ");
-                
-                BufferedWriter bw = new BufferedWriter(new FileWriter(txtfile, true));
-                for (String str : arr2) {
-                    bw.write(str + " ");
-                    
-                    //객체 닫기
-                }
-                bw.write("\n");
-                bw.flush();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (bw != null)
-                    bw.close();
-            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

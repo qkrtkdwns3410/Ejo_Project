@@ -118,7 +118,6 @@ public class Support {
                     admin.adminCheck();
                     break;
                 case 3:
-                    System.out.println("프로그램을 종료합니다.");
                     exit();
                 default:
                     System.out.println("올바른 번호를 입력해주세요.");
@@ -238,8 +237,8 @@ public class Support {
             inOut.folderMake();
             inOut.jobfileSave();
             inOut.memfileSave();
-            inOut.fileSave();
-            inOut.filesave2();
+//            inOut.fileSave();
+//            inOut.filesave2();
             inOut.fileSaveMap();
         
         } catch (Exception e) {
